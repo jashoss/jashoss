@@ -1,7 +1,7 @@
 "use client";
 
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
 
@@ -121,7 +121,8 @@ const fragmentShader = `
 `;
 
 export default function ShaderPlane() {
-    const materialRef = useRef();
+    const materialRef = useRef<THREE.ShaderMaterial | null>(null);
+
 
     const uniforms = useMemo(() => ({
         uTime: { value: 0 },
@@ -137,19 +138,25 @@ export default function ShaderPlane() {
     }), []);
 
     useFrame((_, delta) => {
-        uniforms.uTime.value += delta;
+        if (!materialRef.current) return;
+        materialRef.current.uniforms.uTime.value += delta;
     });
+
 
     useEffect(() => {
         const onResize = () => {
-            uniforms.uResolution.value.set(
-                window.innerWidth,
-                window.innerHeight
+            if (!materialRef.current) return;
+
+            materialRef.current.uniforms.uResolution.value.set(
+            window.innerWidth,
+            window.innerHeight
             );
         };
+
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, []);
+
 
     return (
         <mesh>
