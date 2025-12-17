@@ -1,7 +1,7 @@
 import About from "../mainPages/about";
 import Home from "../mainPages/home";
 
-const pages = {
+const pages: Record<string, React.FC> = {
   about: About,
   home: Home,
 };

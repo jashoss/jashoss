@@ -7,6 +7,12 @@ import * as THREE from "three";
 
 import { useMemo } from "react";
 
+/**
+ * 
+ * inspo de shader:
+ * https://www.shadertoy.com/view/tdG3Rd
+ * 
+ */
 
 const vertexShader = `
     varying vec2 vUv;
@@ -119,7 +125,7 @@ export default function ShaderPlane() {
 
     const uniforms = useMemo(() => ({
         uTime: { value: 0 },
-        uSpeed: { value: 0.4 },
+        uSpeed: { value: 0.6 },
         uResolution: {
             value: new THREE.Vector2(window.innerWidth, window.innerHeight),
         },
